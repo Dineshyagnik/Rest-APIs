@@ -1,9 +1,9 @@
 const fs = require('fs');
 
-// Sync...
+// // Sync... Blocking Request
 //  fs.writeFileSync("./Test.txt",'"Hey There');
 
-// Async...
+// // Async... Non Blocking Request
 // fs.writeFile("./Test.txt",'"Hey World Async',(err)=>{});
 
 // const res = fs.readFileSync("./contacts.txt", "utf-8");
@@ -30,6 +30,31 @@ const fs = require('fs');
 // console.log(fs.statSync("./Test.txt"));
 
 // fs.mkdirSync("my-docs");
-fs.mkdirSync("my-docss/a/b",{recursive:true});
+// fs.mkdirSync("my-docss/a/b",{recursive:true});
+
+// console.log('1');
+
+// // Blocking Req
+// const res = fs.readFileSync("contacts.txt","utf-8");
+// console.log(res);
+// console.log('2');
+
+
+const os = require('os');
+
+console.log(os.cpus().length);
+
+
+
+// console.log('1');
+
+// // Non Blocking Req
+// fs.readFile("Test.txt","utf-8",(err,result)=>{
+//     console.log(result);
+// });
+// console.log('2');
+// console.log('3');
+// console.log('4');
+
 
 
