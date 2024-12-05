@@ -60,10 +60,29 @@
 
 
 const express = require('express');
+const fs = require('fs');
 const users = require('./MOCK_DATA.json');
 const app = express();
 
 const PORT = 8000;
+
+//Middleware - Plugin
+app.use(express.urlencoded({ extended: false }));
+
+app.use((req, res, next) => {
+    console.log('Middleware 1');
+    // return res.json({msg:"Middleware 1"});
+    req.myUserName = 'Dineshyagnik';
+    fs.appendFile('log.txt',`${Date.now()}: ${req.ip}: ${req.method}: ${req.path}\n`,(err,data)=>{
+        next();
+    });
+});
+
+app.use((req, res, next) => {
+    console.log('middleware 2',req.myUserName);
+    // return res.end('hey');
+    next();
+});
 
 //routes
 
@@ -96,8 +115,11 @@ app.route('/api/users/:id').get((req, res) => {
 
 
 app.post('/api/users', (req, res) => {
-    // TO Do Create new user
-    return res.json({ status: 'pending' });
+    const body = req.body;
+    users.push({ ...body, id: users.length + 1 });
+    fs.writeFile('./MOCK_DATA.json', JSON.stringify(users), (err, data) => {
+        return res.json({ status: 'success', id: users.length });
+    });
 });
 
 
